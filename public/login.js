@@ -18,7 +18,7 @@ function LoginMsg(props){
   const ctx = React.useContext(UserContext);
   console.log('lol')
   return(<>
-    <h5>Welcome {ctx[0].user}</h5>
+    <h5>Welcome !</h5>
     <button type="submit" 
       className="btn btn-light" 
       onClick={() => {
@@ -60,11 +60,13 @@ function LoginForm(props){
         isConnected: false}]
       //Add the connected user into the global variable
       ctx.push(data);
-    }, 7200)
+    }, 72000)
   }
 
   function handle(){
+
     fetch(`/account/login/${email}/${password}`)
+    
     .then(response => response.text())
     .then(text => {
         try {
@@ -90,7 +92,7 @@ function LoginForm(props){
     });
   }
 
-  if (counter == 0) {
+  // if (counter == 0) {
     return (<>
 
       Email<br/>
@@ -110,12 +112,12 @@ function LoginForm(props){
       <button type="submit" className="btn btn-light" onClick={handle}>Login</button>
      
     </>);
-  }
+//   }
 
-  else { 
-    return (
-        <h5>Welcome !</h5>
-    )    
-  }
+//   else { 
+//     return (
+//         <h5>Welcome !</h5>
+//     )    
+//   }
   
 }

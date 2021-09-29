@@ -3,21 +3,7 @@ function AllData(){
     const [show, setShow]     = React.useState(true);
     const [status, setStatus] = React.useState('');      
 
-    // React.useEffect(() => {
-        
-    //     // fetch all accounts from API
-    //     fetch('/account/all')
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log(data);
-    //             setData(JSON.stringify(data));                
-    //         });
-
-    // }, []);
-
     return (<>
-        {/* <h5>All Data in Store:</h5>
-        {data} */}
         <Card
         bgcolor="info"
         header="Alldata"
@@ -40,6 +26,20 @@ function AlldataForm(props) {
 
     const [data, setData] = React.useState('');
 
+    const ctx = React.useContext(UserContext);
+    let email;
+    let counter = 0;
+  
+    console.log(ctx[0].isConnected);
+  
+    if(ctx[0].isConnected !== true) {
+      counter = 0;
+    } else {
+      counter = 1;
+      //update the email only if the user is connected
+      email = ctx[0].email
+    }
+
     React.useEffect(() => {
         
         // fetch all accounts from API
@@ -52,8 +52,15 @@ function AlldataForm(props) {
 
     }, []);
 
+    if (counter == 1) {
+
     return (<>
         User<br/>
         <h5>{data}</h5> <br/>   
       </>);
+    } else {
+        return (
+          <h5>You are not logged in</h5>
+        )
+      }
 }

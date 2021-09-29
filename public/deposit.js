@@ -29,20 +29,21 @@ function DepositMsg(props){
 } 
 
 function DepositForm(props){
-  const [email, setEmail]   = React.useState('');
   const [amount, setAmount] = React.useState('');
 
   const ctx = React.useContext(UserContext);
-
+  let email;
   let counter = 0;
 
-  console.log(ctx.users);
+  console.log(ctx[0].isConnected);
 
-  // if(ctx.users[0].user === 'Tim') {
-  //   counter = 0
-  // } else {
-  //   counter = 1;
-  // }
+  if(ctx[0].isConnected !== true) {
+    counter = 0;
+  } else {
+    counter = 1;
+    //update the email only if the user is connected
+    email = ctx[0].email
+  }
 
   function handle(){
     fetch(`/account/update/${email}/${amount}`)
@@ -52,24 +53,20 @@ function DepositForm(props){
             const data = JSON.parse(text);
             props.setStatus(JSON.stringify(data.value));
             props.setShow(false);
-            console.log('JSON:', data);
         } catch(err) {
             props.setStatus('Deposit failed')
             console.log('err:', text);
         }
     });
   }
+  
 
   if (counter == 1) {
     return(<>
 
-      Email<br/>
-      <input type="input" 
-        className="form-control" 
-        placeholder="Enter email" 
-        value={email} onChange={e => setEmail(e.currentTarget.value)}/><br/>
-        
-      Amount<br/>
+      <h5>{email}</h5><br/>
+       
+      Amount<br/> 
       <input type="number" 
         className="form-control" 
         placeholder="Enter amount" 

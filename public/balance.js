@@ -30,8 +30,21 @@ function BalanceMsg(props){
 }
 
 function BalanceForm(props){
-  const [email, setEmail]   = React.useState('');
   const [balance, setBalance] = React.useState('');  
+
+  const ctx = React.useContext(UserContext);
+  let email;
+  let counter = 0;
+
+  console.log(ctx[0].isConnected);
+
+  if(ctx[0].isConnected !== true) {
+    counter = 0;
+  } else {
+    counter = 1;
+    //update the email only if the user is connected
+    email = ctx[0].email
+  }
 
   function handle(){
     fetch(`/account/findOne/${email}`)
@@ -50,20 +63,27 @@ function BalanceForm(props){
     });
   }
 
-  return (<>
+  if (counter == 1) {
 
-    Email<br/>
-    <input type="input" 
-      className="form-control" 
-      placeholder="Enter email" 
-      value={email} 
-      onChange={e => setEmail(e.currentTarget.value)}/><br/>
+    return (<>
 
-    <button type="submit" 
-      className="btn btn-light" 
-      onClick={handle}>
-        Check Balance
-    </button>
+      Email<br/>
+      <input type="input" 
+        className="form-control" 
+        placeholder="Enter email" 
+        value={email} 
+        onChange={e => setEmail(e.currentTarget.value)}/><br/>
 
-  </>);
+      <button type="submit" 
+        className="btn btn-light" 
+        onClick={handle}>
+          Check Balance
+      </button>
+
+    </>);
+  } else {
+    return (
+      <h5>You are not logged in</h5>
+    )
+  }
 }

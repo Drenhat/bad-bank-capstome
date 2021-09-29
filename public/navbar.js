@@ -49,7 +49,7 @@ function NavBar(){
           </li>         
         </ul>
       </div>
-      <form action="login.html" inline="true" className="mx-3">
+      <form inline="true" className="mx-3">
           {logoutButton()}
       </form>
     </nav>
