@@ -1,0 +1,22 @@
+{
+  "name": "badbank",
+  "version": "1.0.0",
+  "description": "a banking application",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node index.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build"
+  },
+  "engines": {
+    "node": "14.15.4"
+  },
+  "author": "abel@mit.edu",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "lowdb": "^1.0.0",
+    "mongodb": "^3.6.2"
+  }
+}
