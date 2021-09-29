@@ -44,7 +44,7 @@ function LoginForm(props){
   if(!ctx[0].isConnected) {
     counter = 0
   } else {
-    counter = 1;
+    counter = 1; 
   }
 
   function logOut() {
