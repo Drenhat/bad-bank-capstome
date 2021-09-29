@@ -1,4 +1,25 @@
 function NavBar(){
+
+  const ctx = React.useContext(UserContext);
+
+  console.log(ctx[0].user)
+
+  const handleLogoutClick = () => {
+    ctx.pop();
+    let data = [{
+      user:'Tim',
+      email:'timothee.huerne@gmail.com',
+      password:'secret',
+      balance:100,
+      isConnected: false}]
+    //Add the connected user into the global variable
+    ctx.push(data);
+  }
+
+  const logoutButton = () => {
+    return <button variant="secondary" onClick={handleLogoutClick}>Logout</button>
+  }
+
   return(
 
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -28,6 +49,9 @@ function NavBar(){
           </li>         
         </ul>
       </div>
+      <form action="login.html" inline="true" className="mx-3">
+          {logoutButton()}
+      </form>
     </nav>
 
   );

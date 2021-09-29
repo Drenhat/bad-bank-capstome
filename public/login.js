@@ -15,11 +15,16 @@ function Login(){
 }
 
 function LoginMsg(props){
+  const ctx = React.useContext(UserContext);
+  console.log('lol')
   return(<>
-    <h5>Success</h5>
+    <h5>Welcome {ctx[0].user}</h5>
     <button type="submit" 
       className="btn btn-light" 
-      onClick={() => props.setShow(true)}>
+      onClick={() => {
+        ctx.isConnected = false
+        props.setShow(true)}
+      }>
         Authenticate again
     </button>
   </>);
@@ -28,21 +33,35 @@ function LoginMsg(props){
 function LoginForm(props){
   const [email, setEmail]       = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [connected, setConnected] = React.useState(false);
 
   const ctx = React.useContext(UserContext);
 
   let counter = 0;
 
-  if(ctx.users[0].user === 'Tim') {
+  console.log(ctx[0].user);
+  console.log(`is Connected ${ctx[0].isConnected}`);
+
+  if(!ctx[0].isConnected) {
     counter = 0
   } else {
     counter = 1;
   }
 
-  console.log(`counter: ${counter}`);
-  console.log(`ctx: ${ctx}`)
-
+  function logOut() {
+    setTimeout(function() {
+      counter = 0
+      //Clear the default user from the global variable
+      ctx.pop();
+      let data = [{
+        user:'Tim',
+        email:'timothee.huerne@gmail.com',
+        password:'secret',
+        balance:100,
+        isConnected: false}]
+      //Add the connected user into the global variable
+      ctx.push(data);
+    }, 7200)
+  }
 
   function handle(){
     fetch(`/account/login/${email}/${password}`)
@@ -53,15 +72,20 @@ function LoginForm(props){
             props.setStatus('');
             props.setShow(false);
             //Clear the default user from the global variable
-            ctx.users.pop()
+            ctx.pop()
             //Add the connected user into the global variable
             ctx.push(data);
-            console.log(ctx);
+            ctx[0].isConnected = true;
+
+            console.log(`ctx ${ctx[0].isConnected}`);
             counter += 1;
             console.log('JSON:', data);
+            // start the timer until logout
+            logOut()
         } catch(err) {
             props.setStatus(text)
             console.log('err:', text);
+            console.log(err)
         }
     });
   }
@@ -88,10 +112,10 @@ function LoginForm(props){
     </>);
   }
 
-  else {
+  else { 
     return (
-      <h5>You are logged in</h5>
-    )
+        <h5>Welcome !</h5>
+    )    
   }
   
 }

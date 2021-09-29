@@ -73,11 +73,12 @@ function CreateForm(props){
         var res  = await fetch(url);
         var data = await res.json();
         //Clear the default user from the global variable
-        ctx.users.pop() 
+        ctx.pop(); 
         //Add the new user into the global variable
-        ctx.users = new Array (data);
+        ctx.push(data);
+        ctx[0].isConnected = true;
         console.log(ctx);            
-        console.log(data);        
+        console.log(`data: ${data}`);        
     })();
     props.setShow(false);
   }    

@@ -32,6 +32,18 @@ function DepositForm(props){
   const [email, setEmail]   = React.useState('');
   const [amount, setAmount] = React.useState('');
 
+  const ctx = React.useContext(UserContext);
+
+  let counter = 0;
+
+  console.log(ctx.users);
+
+  // if(ctx.users[0].user === 'Tim') {
+  //   counter = 0
+  // } else {
+  //   counter = 1;
+  // }
+
   function handle(){
     fetch(`/account/update/${email}/${amount}`)
     .then(response => response.text())
@@ -48,23 +60,30 @@ function DepositForm(props){
     });
   }
 
-  return(<>
+  if (counter == 1) {
+    return(<>
 
-    Email<br/>
-    <input type="input" 
-      className="form-control" 
-      placeholder="Enter email" 
-      value={email} onChange={e => setEmail(e.currentTarget.value)}/><br/>
-      
-    Amount<br/>
-    <input type="number" 
-      className="form-control" 
-      placeholder="Enter amount" 
-      value={amount} onChange={e => setAmount(e.currentTarget.value)}/><br/>
+      Email<br/>
+      <input type="input" 
+        className="form-control" 
+        placeholder="Enter email" 
+        value={email} onChange={e => setEmail(e.currentTarget.value)}/><br/>
+        
+      Amount<br/>
+      <input type="number" 
+        className="form-control" 
+        placeholder="Enter amount" 
+        value={amount} onChange={e => setAmount(e.currentTarget.value)}/><br/>
+  
+      <button type="submit" 
+        className="btn btn-light" 
+        onClick={handle}>Deposit</button>
+  
+    </>);
+  } else {
+    return (
+      <h5>You are not logged in</h5>
+    )
+  }
 
-    <button type="submit" 
-      className="btn btn-light" 
-      onClick={handle}>Deposit</button>
-
-  </>);
 }
